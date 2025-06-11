@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
+
 public class UserBookingService {
     private User user;  // The current user making the booking
     private List<User> userList;  // List of all users
@@ -38,8 +42,13 @@ public class UserBookingService {
     }
 
     public Boolean signUp(User user){
-        userList.add(user);
-        saveUserToFile();
+        try{
+            userList.add(user);
+            saveUserToFile();
+            return TRUE;
+        } catch (IOException e) {
+            return FALSE;
+        }
     }
 
     private void saveUserToFile() throws IOException{
