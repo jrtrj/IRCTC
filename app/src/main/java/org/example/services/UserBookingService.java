@@ -52,6 +52,13 @@ public class UserBookingService {
     }
 
     private void saveUserToFile() throws IOException{
-        objectMapper.writeValue(new File(USER_PATH),userList);
+        objectMapper.writeValue(new File(USER_PATH),userList); //serialization
     }
+
+    public void fetchBooking() {
+       user.printTickets();
+    }
+
+
+
 }
