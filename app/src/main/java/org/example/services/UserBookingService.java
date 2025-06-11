@@ -36,4 +36,13 @@ public class UserBookingService {
 
         return foundUser.isPresent();  // True if user exists with correct password, false otherwise
     }
+
+    public Boolean signUp(User user){
+        userList.add(user);
+        saveUserToFile();
+    }
+
+    private void saveUserToFile() throws IOException{
+        objectMapper.writeValue(new File(USER_PATH),userList);
+    }
 }
