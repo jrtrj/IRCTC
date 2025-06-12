@@ -2,6 +2,7 @@ package org.example.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.entities.Ticket;
 import org.example.entities.User;
 import org.example.util.UserServiceUtil;
 
@@ -59,6 +60,29 @@ public class UserBookingService {
        user.printTickets();
     }
 
+    public Boolean cancelBooking(String ticketId) {
+        List<Ticket> bookedTickets = user.getTicketsBooked();
+        Optional<Ticket> matchingTicket = bookedTickets.stream()
+                .filter(ticket -> ticket.getTicketID().equals(ticketId))
+                .findFirst();
+        if(matchingTicket.isPresent()) {
+           bookedTickets.remove(matchingTicket.get());
+           System.out.println("Ticket with ID "+ticketId+" has been canceled.");
+
+           //Write to the db
+            try {
+                saveUserToFile();
+            } catch (IOException e) {
+                System.err.println("Failed to update database after canceling booking: " + e.getMessage());
+                return FALSE;
+            }
+            return TRUE;
+        }
+        else {
+            System.out.println("No ticket found with ID " + ticketId);
+            return FALSE;
+        }
+    }
 
 
 }
