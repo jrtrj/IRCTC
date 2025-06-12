@@ -24,6 +24,13 @@ public class UserBookingService {
     // Constructor that initializes the user and loads all users from the JSON file
     public UserBookingService(User user) throws IOException {
         this.user = user;  // Store the user who is making the booking
+        loadUserListFromFile();
+    }
+    public UserBookingService() throws IOException {
+        loadUserListFromFile();
+    }
+
+    private void loadUserListFromFile() throws IOException{
         File users = new File(USER_PATH);  // Point to the users' JSON file
         // TypeReference is used here to keep generic type info (List<User>) at runtime.
         // This avoids issues caused by type erasure when deserializing from JSON.
