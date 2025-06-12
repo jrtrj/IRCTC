@@ -52,7 +52,7 @@ public class Ticket {
     }
 
     public String getTicketInfo(){
-        return String.format("Ticket ID: %s belongs to User %s from %s to %s on %s", ticketId, userId, source, destination, dateOfTravel);
+        return String.format("Ticket ID: %s belongs to User %s from %s to %s on %s", ticketID, userId, source, destination, dateOfTravel);
     }
 
     private String ticketID;
