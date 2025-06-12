@@ -18,8 +18,7 @@ import static java.lang.Boolean.TRUE;
 public class UserBookingService {
     private User user;  // The current user making the booking
     private List<User> userList;  // List of all users
-    private ObjectMapper objectMapper = new ObjectMapper();  // Used to read/write JSON data
-    private static final String USER_PATH = "app/src/main/java/org/example/localDB/Users.json";  // Path to the users' JSON file
+    private final ObjectMapper objectMapper = new ObjectMapper();  // Used to read/write JSON data private static final String USER_PATH = "app/src/main/java/org/example/localDB/Users.json";  // Path to the users' JSON file
 
     // Constructor that initializes the user and loads all users from the JSON file
     public UserBookingService(User user) throws IOException {
@@ -41,12 +40,17 @@ public class UserBookingService {
         Optional<User> foundUser = userList.stream()  // Convert userList to a stream for filtering
                 .filter((existingUser) -> {  // Check each user
                     // See if both userId (case-insensitive) and password match
-                    return existingUser.getUserId().equalsIgnoreCase(user.getUserId())
+                    return existingUser.getName().equalsIgnoreCase(user.getName())
                             && UserServiceUtil.checkPassword(user.getPassword(), existingUser.getHashedPassword());
                 })
                 .findFirst();  // Stop as soon as we find the first match
 
-        return foundUser.isPresent();  // True if user exists with correct password, false otherwise
+        if (foundUser.isPresent()){
+            this.user = foundUser.get();
+            return TRUE;
+        }
+        else
+            return FALSE;
     }
 
     public Boolean signUp(User user){
